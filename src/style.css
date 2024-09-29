@@ -1,0 +1,4 @@
+@import "ant-design-vue/dist/reset.css";
+
+@tailwind base;
+@tailwind utilities;
