@@ -4,12 +4,14 @@ import { loginWithFace, loginWithPassword } from '@/api/login.ts'
 import { LockOutlined, UserOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { h, onUnmounted, reactive, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 
 const activeTab = ref('usernamePassword')
 const form = reactive({
   username: '',
   password: '',
 })
+const router = useRouter()
 const isLoading = ref(false)
 
 const videoElement = ref<HTMLVideoElement | null>(null)
@@ -70,8 +72,9 @@ async function handleFaceRecognition() {
   try {
     const file = await toFile(canvasElement.value, 'image/jpeg')
     isLoading.value = true
-    const res = await loginWithFace(file)
-    console.log(res)
+    await loginWithFace(file)
+    message.success('Login successful!')
+    await router.push('/user')
   }
   catch (err) {
     console.error('Face recognition error:', err)
@@ -98,9 +101,9 @@ onUnmounted(() => {
 async function handleLogin() {
   isLoading.value = true
   try {
-    const res = await loginWithPassword(form)
-    alert('Login successful!')
-    console.log(res)
+    await loginWithPassword(form)
+    message.success('Login successful!')
+    await router.push('/user')
   }
   catch (err) {
     console.error('Login error:', err)
@@ -112,7 +115,7 @@ async function handleLogin() {
 }
 
 function handleRegister() {
-  alert('Redirecting to registration...')
+  router.push('/register')
 }
 </script>
 

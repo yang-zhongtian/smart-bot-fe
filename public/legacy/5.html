@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>购物车</title>
+<style>
+	        /* 添加背景图片 */
+	        body {
+	            background-image: url(''); /* 替换为您的图片路径 */
+	            background-size: cover; /* 覆盖整个页面 */
+	            background-position: center; /* 中心对齐图片 */
+	            background-repeat: no-repeat; /* 不重复图片 */
+	        }
+body {
+  font-family: Arial, sans-serif;
+  text-align: center; /* 居中所有文本 */
+}
+.product-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center; /* 使flex子项居中 */
+  align-items: center;
+}
+.product-image {
+  margin-right: 10px;
+}
+form {
+  margin-top: 20px;
+}
+input, button {
+  margin: 5px;
+}
+</style>
+</head>
+<body>
+<h1>购物车</h1>
+<div id="products">
+  <!-- Existing product items -->
+</div>
+<h2>总计: $<span id="total">0.00</span></h2>
+<a href="login/payment-form.html" class="buy-button" type="submit">立即支付</a>
+
+<!-- Form to add new product with image -->
+<form id="addProductForm">
+  <input type="text" id="productName" placeholder="产品名称" required>
+  <input type="number" id="productPrice" placeholder="产品价格" required>
+  <input type="text" id="productImage" placeholder="图片URL" required>
+  <button type="submit">添加产品</button>
+</form>
+
+<script>
+document.getElementById('addProductForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const name = document.getElementById('productName').value;
+  const price = document.getElementById('productPrice').value;
+  const imageUrl = document.getElementById('productImage').value;
+  addProduct(name, price, imageUrl);
+});
+
+function addProduct(name, price, imageUrl) {
+  const productContainer = document.createElement('div');
+  productContainer.className = 'product-item';
+  productContainer.innerHTML = `
+    <img src="${imageUrl}" class="product-image" alt="${name}" width="100">
+    <label><input type="checkbox" class="product" data-price="${price}" onclick="checkboxToggle(this)"> ${name} - $${price}</label>
+    <button onclick="addToCart(this)">添加到购物车</button>
+    <button onclick="removeItem(this)">删除</button>
+  `;
+  document.getElementById('products').appendChild(productContainer);
+}
+
+function updateTotal(amount) {
+  const totalElement = document.getElementById('total');
+  let currentTotal = parseFloat(totalElement.textContent);
+  currentTotal += amount;
+  totalElement.textContent = currentTotal.toFixed(2);
+}
+
+function checkboxToggle(checkbox) {
+  const price = parseFloat(checkbox.getAttribute('data-price'));
+  checkbox.checked ? updateTotal(price) : updateTotal(-price);
+}
+
+const initialProducts = [
+  { name: "北邮手提包", price: 29, imageUrl: "12.jpg" },
+  { name: "北邮胸针", price: 19, imageUrl: "13.jpg" },
+  { name: "北邮明信片", price: 15, imageUrl: "14.jpg" }
+];
+
+window.onload = function() {
+  initialProducts.forEach(product => {
+    addProduct(product.name, product.price, product.imageUrl);
+  });
+};
+
+function addToCart(button) {
+  alert("已添加到购物车!");
+}
+
+function removeItem(button) {
+  const checkbox = button.parentElement.querySelector('.product');
+  if (checkbox.checked) {
+    const price = parseFloat(checkbox.getAttribute('data-price'));
+    updateTotal(-price); // 删除商品时更新总计
+  }
+  button.parentElement.remove();
+}
+</script>
+</body>
+</html>

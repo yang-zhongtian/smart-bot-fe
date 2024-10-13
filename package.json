@@ -13,13 +13,18 @@
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
     "ant-design-vue": "4.x",
+    "dayjs": "^1.11.13",
+    "echarts": "^5.5.1",
+    "js-cookie": "^3.0.5",
     "umi-request": "^1.4.0",
     "unity-webgl": "^3.5.5",
     "vue": "^3.4.37",
+    "vue-echarts": "^7.0.3",
     "vue-router": "4"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.7.1",
+    "@types/js-cookie": "^3.0.6",
     "@vitejs/plugin-vue": "^5.1.2",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.11.1",

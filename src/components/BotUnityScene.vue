@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import BuildingData from '@/assets/unity/Building.data?url'
-import BuildingFramework from '@/assets/unity/Building.framework.js?url'
-import BuildingLoader from '@/assets/unity/Building.loader.js?url'
-import BuildingWasm from '@/assets/unity/Building.wasm?url'
+import BuildingData from '@/assets/unity/Bot.data?url'
+import BuildingFramework from '@/assets/unity/Bot.framework.js?url'
+import BuildingLoader from '@/assets/unity/Bot.loader.js?url'
+import BuildingWasm from '@/assets/unity/Bot.wasm?url'
 import UnityWebgl from 'unity-webgl'
 import VueUnity from 'unity-webgl/vue'
 
@@ -13,18 +13,15 @@ const unityContext = new UnityWebgl({
   codeUrl: BuildingWasm,
 })
 
-// send message to unity
-function test() {
-  unityContext.send('objectName', 'methodName', {
-    id: 0,
-    angle: 90,
-  })
+function setAngle(angle: number[]) {
+  unityContext.send('Robot', 'SetAngle', angle.join('|'))
 }
 
-// unityContext.on('device', () => alert('click device ...'))
+defineExpose({
+  setAngle,
+})
 </script>
 
 <template>
-  <VueUnity :unity="unityContext" width="800" height="600" />
-  <button @click="test" />
+  <VueUnity :unity="unityContext" />
 </template>

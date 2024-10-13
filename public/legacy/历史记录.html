@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜索与历史记录</title>
+    <style>
+		 body {
+	            background-image: url('2.jpg'); /* 替换为您的图片路径 */
+	            background-size: cover; /* 覆盖整个页面 */
+	            background-position: center; /* 中心对齐图片 */
+	            background-repeat: no-repeat; /* 不重复图片 */
+	        }
+		
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 4px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+		
+		.title {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+		
+        .suggestions {
+            display: none;
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-top: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .suggestion-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+        .history-items {
+            margin-top: 20px;
+        }
+        .item {
+            border: 1px solid #eee;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+		<h1 class="title">搜索与历史记录</h1>
+        <input type="text" id="searchInput" placeholder="搜索商品" oninput="filterItems()">
+        <div class="suggestions" id="suggestions"></div>
+        <div class="history-items" id="historyList"></div>
+    </div>
+    <script>
+        const items = [
+            { id: 1, name: '北邮手提包', description: 'nice', date: '2023-06-27', price: '￥29.00', imageUrl: '12.jpg' },
+            { id: 2, name: '北邮胸章', description: 'good', date: '2023-06-25', price: '￥19.00', imageUrl: '13.jpg' }
+            // 更多商品数据
+        ];
+
+        function loadItems() {
+            const historyList = document.getElementById('historyList');
+            items.forEach(item => {
+                const article = document.createElement('article');
+                article.className = 'item';
+                article.innerHTML = `
+                    <img src="${item.imageUrl}" alt="${item.name}" style="width:100px; height: auto;">
+                    <div>
+                        <h3>${item.name}</h3>
+                        <p>${item.description}</p>
+                        <p>${item.date}</p>
+                        <p>${item.price}</p>
+                    </div>
+                `;
+                historyList.appendChild(article);
+            });
+        }
+
+        function filterItems() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toUpperCase();
+            const suggestions = document.getElementById('suggestions');
+            suggestions.innerHTML = '';
+            suggestions.style.display = 'none';
+
+            if (filter) {
+                const filteredItems = items.filter(item => item.name.toUpperCase().includes(filter));
+                if (filteredItems.length > 0) {
+                    suggestions.style.display = 'block';
+                }
+                filteredItems.forEach(item => {
+                    const div = document.createElement('div');
+                    div.textContent = item.name;
+                    div.className = 'suggestion-item';
+                    div.onclick = function() {
+                        input.value = item.name;
+                        suggestions.style.display = 'none';
+                        filterItems();
+                    };
+                    suggestions.appendChild(div);
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadItems();
+        });
+    </script>
+</body>
+</html>

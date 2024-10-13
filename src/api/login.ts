@@ -5,7 +5,7 @@ interface IPasswordLogin {
   password: string
 }
 
-interface IUser {
+export interface IUser {
   id: number
   username: string
   email: string
@@ -14,7 +14,7 @@ interface IUser {
 }
 
 export async function loginWithPassword({ username, password }: IPasswordLogin) {
-  return await request.post<IUser>('/api/auth/login', {
+  return await request.post<IUser>('/api/auth/login/', {
     data: {
       username,
       password,
@@ -25,7 +25,16 @@ export async function loginWithPassword({ username, password }: IPasswordLogin) 
 export async function loginWithFace(faceImage: File) {
   const formData = new FormData()
   formData.append('face', faceImage)
-  return await request.post<IUser>('/api/auth/login-face', {
+  return await request.post<IUser>('/api/auth/login-face/', {
     data: formData,
+  })
+}
+
+export async function register({ username, password }: IPasswordLogin) {
+  return await request.post<IUser>('/api/auth/register/', {
+    data: {
+      username,
+      password,
+    },
   })
 }

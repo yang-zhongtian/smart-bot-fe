@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品介绍页面</title>
+    <style>
+        /* CSS 样式 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+			background-image: url('2.jpg'); /* 替换为您的图片路径 */
+	            background-size: cover; /* 覆盖整个页面 */
+	            background-position: center; /* 中心对齐图片 */
+	            background-repeat: no-repeat; /* 不重复图片 */
+        }
+
+        .product {
+            background: white;
+            width: 300px;
+            margin: 20px auto;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: auto;
+        }
+
+        .product-title {
+            color: #333;
+            font-size: 24px;
+        }
+
+        .product-price {
+            color: #C00;
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .buy-button {
+            background-color: #ff5200;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+        }
+
+        .product-description {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="product">
+        <img src="12.jpg" alt="商品图片" class="product-image">
+        <h1 class="product-title">北邮手提包</h1>
+        <p class="product-price">¥29.00</p>
+        <a href="5.html" class="buy-button">加入购物车</a>
+        <p class="product-description">每一件文创产品都承载着BYR共同的记忆~帮我们定格了最美的时光记录了我们共同的成长故事。</p>
+    </div>
+
+    <script>
+        // JavaScript 代码
+        document.querySelector('.buy-button').addEventListener('click', function() {
+            alert('感谢您的购买！');
+        });
+    </script>
+</body>
+</html>
