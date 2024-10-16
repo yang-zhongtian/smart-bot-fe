@@ -32,10 +32,10 @@ function groupBySecond(records: IFaceRecord[]) {
     return { dates: [], counts: [] }
 
   const lastRecordTime = dayjs(records[0].created_at)
-  const oneMinuteAgo = lastRecordTime.subtract(20, 'minute')
+  const minutesAgo = lastRecordTime.subtract(20, 'minute')
 
   const filteredRecords = records.filter(record =>
-    dayjs(record.created_at).isBetween(oneMinuteAgo, lastRecordTime),
+    dayjs(record.created_at).isBetween(minutesAgo, lastRecordTime, null, '[]'),
   )
 
   filteredRecords.forEach((record) => {
@@ -44,8 +44,8 @@ function groupBySecond(records: IFaceRecord[]) {
   })
 
   const result: Record<string, number> = {}
-  for (let i = 0; i < 20; i++) {
-    const time = oneMinuteAgo.add(i, 'minute').format('HH:mm')
+  for (let i = 0; i <= 20; i++) {
+    const time = minutesAgo.add(i, 'minute').format('HH:mm')
     result[time] = counts[time] || 0
   }
 
@@ -159,7 +159,10 @@ onMounted(() => {
 <template>
   <div class="flex flex-col gap-5">
     <div class="flex gap-5">
-      <ACard class="w-2/3" title="Face Detection per Minute" size="small" :body-style="{ width: '100%', height: '250px' }">
+      <ACard
+        class="w-2/3" title="Face Detection per Minute" size="small"
+        :body-style="{ width: '100%', height: '250px' }"
+      >
         <VChart :option="chartOption" autoresize />
       </ACard>
       <ACard class="w-1/3" title="User Distribution" size="small" :body-style="{ width: '100%', height: '250px' }">
